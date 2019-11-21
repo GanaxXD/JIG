@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "544589014742",
+    "firebase_url": "https://job-is-a-game.firebaseio.com",
+    "project_id": "job-is-a-game",
+    "storage_bucket": "job-is-a-game.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544589014742:android:4b9d6c06929eac8e",
+        "android_client_info": {
+          "package_name": "com.example.job_is_a_game_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544589014742-4fmcho8c0rmg63jf7qo49uk6qnlv0dbd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.job_is_a_game_app",
+            "certificate_hash": "fa45e717da484619af806ff90bce85155f7273d2"
+          }
+        },
+        {
+          "client_id": "544589014742-ro96m2p33vq04evf3bk505prot6s3ms9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJEE5l_m2WfqnanmlU8c8r_K9ut6adZcg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544589014742-ro96m2p33vq04evf3bk505prot6s3ms9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
