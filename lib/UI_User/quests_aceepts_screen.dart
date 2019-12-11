@@ -46,7 +46,7 @@ class QuestAcceptScreen extends StatelessWidget {
                       backgroundColor: Colors.indigo,
                     ),
                   );
-                } else if (model.questesAceitas == null || model.questesAceitas.length ==0 ){
+                } else if (model.questesAcce == null || model.questesAcce.length ==0 ){
                   return Center(
                     child: Text("Nenhuma quest foi aceita por você.", style: TextStyle(
                         fontFamily: 'Helvetica', fontSize: 14, color: Colors.indigo[400]
@@ -60,9 +60,10 @@ class QuestAcceptScreen extends StatelessWidget {
                   return ListView(
                     children: <Widget>[
                       Column(
-                        children: model.questesAceitas.map((quest){
-                          return AceitasTile(quest);
-                        }
+                        children: model.questesAcce.map(
+                                (quest){
+                                   return AceitasTile(quest);
+                                }
                         ).toList(),
                       ),
                     ],

@@ -110,9 +110,11 @@ class CustomDrawer extends StatelessWidget {
               ),
               Divider(),
               DrawerTile(Icons.home, "Cidade Natal", pageControler, 0),
-              DrawerTile(Icons.playlist_add_check, "Quests Aceitas/Concluídas", pageControler, 1),
-              DrawerTile(Icons.announcement, "Clamar Recompensas", pageControler, 2),
-              DrawerTile(Icons.airline_seat_individual_suite, "Descansar", pageControler, 3), //Descansar é sair
+              DrawerTile(Icons.list, "Quests Aceitas", pageControler, 1),
+              DrawerTile(Icons.playlist_add_check, "Quests Concluídas", pageControler, 2),
+              DrawerTile(Icons.announcement, "Clamar Recompensas", pageControler, 3),
+              DrawerTile(Icons.category, "Criar Missões", pageControler, 4),
+              DrawerTile(Icons.airline_seat_individual_suite, "Descansar", pageControler, 5), //Descansar é sair
             ],
           ),
         ],

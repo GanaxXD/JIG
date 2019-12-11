@@ -31,7 +31,7 @@ class QuestsAccepts {
   String titulo;
   String descricao;
   bool aceita;
-  int id;
+  int id, idworkflow;
 
 
 
@@ -46,12 +46,12 @@ class QuestsAccepts {
   //Transforma os dados do banco em uma questAceita
   QuestsAccepts.fromDocument(DocumentSnapshot document){
     idQuestsAceitas = document.documentID;
-    idQuestCopia = document.data["id_quest"];
+    idQuestCopia = document.data["idQuest"];
     titulo = document.data["titulo_quest"];
     descricao = document.data["descricao_quest"];
     aceita = document.data["aceita"];
+    idworkflow = document.data["workflow"];
     id = document.data["id_quest"];
-
   }
 
 
@@ -63,10 +63,11 @@ class QuestsAccepts {
       "idQuest": idQuestCopia,
       "titulo_quest": titulo,
       "descricao_quest": descricao,
-      "aceita": aceita
-      //"usuario": user.firebaseUser.uid,
+      "aceita": aceita,
+      "workflow" : idworkflow,
+      "id_Banco" : id,
+      "questDados" : questData.toResumeMap()
 
-      //"questResumo": questData.toResumeMap()
     };
   }
 

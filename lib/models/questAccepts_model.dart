@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:job_is_a_game_app/models/quests_accepts.dart';
+import 'package:job_is_a_game_app/models/quets.dart';
 import 'package:job_is_a_game_app/models/user.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -11,8 +12,17 @@ Aula 162 - 3:00
 class QuestAcceptModel extends Model{
 
   User user;
-  List<QuestsAccepts> questesAceitas = [];
+  List<QuestsAccepts> questesAcce = [];
+  List<Quests> questes = [];
   bool isLoading =false;
+
+
+  //********************************
+  Quests q;
+  //********************************
+
+
+
 
   QuestAcceptModel(this.user){
     if(user.isLoggedIn())
@@ -24,7 +34,7 @@ class QuestAcceptModel extends Model{
       ScopedModel.of<QuestAcceptModel>(context);
 
   void addQuest(QuestsAccepts quest){
-    questesAceitas.add(quest);
+    questesAcce.add(quest);
 
     /*
     Irei criar aqui uma coleção dentro do user, que irá conter
@@ -43,7 +53,7 @@ class QuestAcceptModel extends Model{
     Firestore.instance.collection("usuarios").document(user.firebaseUser.uid)
         .collection("questsAceitas").document(quest.idQuestsAceitas).delete();
 
-    questesAceitas.remove(quest);
+    questesAcce.remove(quest);
     notifyListeners();
   }
 
@@ -53,9 +63,18 @@ class QuestAcceptModel extends Model{
       QuerySnapshot query = await Firestore.instance.collection("usuarios").document(user.firebaseUser.uid)
           .collection("questsAceitas").getDocuments();
 
-      questesAceitas = query.documents.map((doc) => QuestsAccepts.fromDocument(doc)).toList();
+      questesAcce = query.documents.map((doc) => QuestsAccepts.fromDocument(doc)).toList();
 
       notifyListeners();
    }
+
+  void loadMissionsExtern() async{
+    QuerySnapshot query = await Firestore.instance.collection("usuarios").document(user.firebaseUser.uid)
+        .collection("questsAceitas").getDocuments();
+
+    questes = query.documents.map((doc) => Quests.fromDocument(doc)).toList();
+
+    notifyListeners();
+  }
 
 }

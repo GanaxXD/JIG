@@ -76,10 +76,6 @@ class _CadastroState extends State<Cadastro> {
     print(imagemDoFirestore.toString());
   }
 
-  Future downloadFile(String httpPath) async{
-
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -324,13 +320,13 @@ class _CadastroState extends State<Cadastro> {
                         borderRadius: BorderRadius.circular(30.0)),
                     onPressed: () async {
 
-                      var id = Firestore.instance.collection("idUser").document("id").get().then((doc){
+                      var id = await Firestore.instance.collection("idUser").document("id").get().then((doc){
                         idDoBanco = doc.data["id"];
                       });
-                      print(id);
+                      print("Aqui? ${id}");
 
-                      if(_formkey.currentState.validate()) {
-                        //uploadPic(context);
+                      if(_formkey.currentState.validate()){
+                        /*//uploadPic(context);
                         String nomeArquivo = path.basename(_imagem.path);
                         //Envio da imagem para o firestore
                         StorageReference firebaseStorage = FirebaseStorage.instance.ref()
@@ -339,42 +335,46 @@ class _CadastroState extends State<Cadastro> {
                         StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
 
                         imagemDoFirestore = await firebaseStorage.getDownloadURL();
-                        print(imagemDoFirestore.toString());
+                        print(imagemDoFirestore.toString());*/
+
+                        if (_imagem == null) return;
+                        StorageUploadTask task = FirebaseStorage.instance.ref()
+                            .child("Photo_Users").child("${idDoBanco}LogginPerfil"+
+                        DateTime.now().millisecondsSinceEpoch.toString()).putFile(_imagem);
+                        StorageTaskSnapshot taskSnapshot = await task.onComplete;
+                        String url = await taskSnapshot.ref.getDownloadURL();
+
+                        //uploadPic(context);
+
+                        //https://stackoverflow.com/questions/50836339/flutter-firestore-how-to-display-an-image-from-firestore-in-flutter
+                        //"photoUser" : url,
 
 
                         Map<String, dynamic> userData = {
                           "nome": _nameControle.text,
-                          //https://stackoverflow.com/questions/50836339/flutter-firestore-how-to-display-an-image-from-firestore-in-flutter
-                          "photoUser" : imagemDoFirestore,
                           "sexo" : grupoRadioSexo == 1 ? "Homem" : "Mulher",
                           "idade": _idadeControle.text,
                           "tempoTrabalho": _tempoTrabalhoControle.text,
                           "cargo": profissaoSelecionada,//_cargoControle.text,
                           "email": _emailControle.text,
                           "xp": 0,
-                          "level": 0, //CORRIGIR. ELE ESTÁ INDO COMO UMA STRING
-                          //"photoUser": imagemDoFirestore.toString(),
-                          "identificador": idDoBanco,
+                          "level": int.fromEnvironment(_tempoTrabalhoControle.text, defaultValue: 0), //CORRIGIR. ELE ESTÁ INDO COMO UMA STRING
+                          "photoUser": url.toString(),//url.toString(),
+                          "id": idDoBanco.toString(),
 
                           //Se a senha for salva aqui, ela irá para o firestore em um campo string, quee será visível: uma péssima ideia.
                         };
+                        print("Cheguei aqui");
 
-                        idDoBanco +=1;
-
+                        idDoBanco = idDoBanco+1;
                         Firestore.instance.collection("idUser").document("id").updateData({"id": idDoBanco});
-
-
-                        /*if (_imagem == null) return;
-                        StorageUploadTask task = FirebaseStorage.instance
-                        .ref().child(DateTime.now().millisecondsSinceEpoch.toString())
-                        .putFile(_imagem);*/
-
                         model.signUp(
                             userData: userData,
                             pass: _senhaControle.text,
                             onSucess: _onSuccess,
                             onFail: _onFail
                         );
+                        print("Cheguei aqui 2");
                       }
 
                     },
@@ -430,6 +430,7 @@ class _CadastroState extends State<Cadastro> {
   Função para sair.
    */
   void _onFail(){
+
     _scaffoldkey.currentState.showSnackBar(SnackBar(
       backgroundColor: Colors.red,
       content: Text("Falha ao alistar o guerreiro. Tente novamente!",style: TextStyle(

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:job_is_a_game_app/UI_User/workflow_status_screen.dart';
 import 'package:job_is_a_game_app/geral_screens/login_screen.dart';
 import 'package:job_is_a_game_app/models/questAccepts_model.dart';
 import 'package:job_is_a_game_app/models/quests_accepts.dart';
@@ -45,72 +46,103 @@ AULA 166 - CRIANDO CARD DOS PRODUTOS PROGRAMATICAMENTE
                   //Elementos espaçados igualmente na vertical:
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(questaceita.questData.titulo, style: TextStyle(
-                      fontWeight: FontWeight.w500, fontSize: 18, fontFamily: 'Helvetica'
-                    ),),
+                    Wrap(
+                      children: <Widget>[
+                        Text("Missão:  ", style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18, fontFamily: 'Helvetica'
+                        ),),
+
+                        Text(questaceita.questData.titulo, style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 18, fontFamily: 'Helvetica'
+                        ),),
+                      ],
+                    ),
+
                     SizedBox(height: 20,),
-                    Text(questaceita.questData.descricao, style: TextStyle(
-                        fontWeight: FontWeight.w300, fontSize: 14, fontFamily: 'Helvetica'
-                    ),),
+                    Wrap(
+                      children: <Widget>[
+                        Text("Descrição da Missão:  ", style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 14, fontFamily: 'Helvetica'
+                        ),),
+
+                        Text(questaceita.questData.descricao, style: TextStyle(
+                            fontWeight: FontWeight.w300, fontSize: 14, fontFamily: 'Helvetica'
+                        ),),
+                      ],
+                    ),
+
                     SizedBox(height: 20,),
-                    Text(questaceita.questData.xp.toString(), style: TextStyle(
-                        fontWeight: FontWeight.w300, fontSize: 12, fontFamily: 'Helvetica'
-                    ),),
+                    Wrap(
+                      children: <Widget>[
+                        Text("Recompensa:  ", style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 12, fontFamily: 'Helvetica'
+                        ),),
+
+                        Text(" ${questaceita.questData.xp.toString()} de XP", style: TextStyle(
+                            fontWeight: FontWeight.w300, fontSize: 12, fontFamily: 'Helvetica'
+                        ),),
+                      ],
+                    ),
+
+                    SizedBox(height: 20,),
+                    WorkFlowStatus(questaceita.idQuestCopia, user),
 
 
-                    Text(questaceita.questData.dataInicio.day.abs().toString()+"/"+
-                        questaceita.questData.dataInicio.month.abs().toString()+"/"+
-                        questaceita.questData.dataInicio.year.abs().toString(), style: TextStyle(
-                        fontWeight: FontWeight.w300, fontSize: 12, fontFamily: 'Helvetica'
-                    ),),
+
 
 
                     SizedBox(height: 40,),
                     Row(
                       children: <Widget>[
-                        Text("Desistir?", style: TextStyle(fontFamily: 'Helvetica',
-                        color: Colors.red, fontSize: 20),),
-                        Padding(padding: EdgeInsets.only(left: 15)),
-                        IconButton(
-                          icon: Icon(Icons.close, color: Colors.red, size: 25,),
-                          onPressed: (){
-                            return Alert(
-                              context: context,
-                              type: AlertType.error,
-                              title: "Deseja Realmente Desistir?",
-                              desc: "Bravo guerreiro, desistir irá tirar de você a possibilidade"
-                                  "de obter pontos de experiência desta missão. Tem certeza que"
-                                  "deseja desistir da missão?\n\nP.S.: Você poderá aceitar a missão novamente"
-                                  "na tela de \"Quests Disponíveis\"",
 
-                              buttons: [
-                                DialogButton(
-                                  child: Text(
-                                    "Sim",
-                                    style: TextStyle(color: Colors.white, fontSize: 20),
+                        Expanded(
+                          child: BotaoCircular1(
+                            fundo: Colors.redAccent,
+                            texto: Text("Desistir?",
+                                style: TextStyle(fontFamily: 'Helvetica',
+                                    color: Colors.white, fontSize: 20),
+                            ),
+                            corTexto: Colors.red,
+                            apertar: () {
+                              return Alert(
+                                context: context,
+                                type: AlertType.error,
+                                title: "Deseja Realmente Desistir?",
+                                desc: "Bravo guerreiro, desistir irá tirar de você a possibilidade"
+                                    "de obter pontos de experiência desta missão. Tem certeza que"
+                                    "deseja desistir da missão?\n\nP.S.: Você poderá aceitar a missão novamente"
+                                    "na tela de \"Quests Disponíveis\"",
+
+                                buttons: [
+                                  DialogButton(
+                                    child: Text(
+                                      "Sim",
+                                      style: TextStyle(color: Colors.white, fontSize: 20),
+                                    ),
+                                    onPressed: () {
+                                      questaceita.questData.aceita=false;
+                                      QuestAcceptModel.of(context).removeQuest(questaceita);
+                                    },
+                                    width: 120,
                                   ),
-                                  onPressed: () {
-                                    questaceita.questData.aceita=false;
-                                    QuestAcceptModel.of(context).removeQuest(questaceita);
-                                  },
-                                  width: 120,
-                                ),
-                                DialogButton(
-                                  child: Text(
-                                    "Não",
-                                    style: TextStyle(color: Colors.white, fontSize: 20),
-                                  ),
-                                  onPressed: () => Navigator.pop(context),
-                                  width: 120,
-                                )
-                              ],
-                            ).show();
-                          },
+                                  DialogButton(
+                                    child: Text(
+                                      "Não",
+                                      style: TextStyle(color: Colors.white, fontSize: 20),
+                                    ),
+                                    onPressed: () => Navigator.pop(context),
+                                    width: 120,
+                                  )
+                                ],
+                              ).show();
+                            },
+                          ),
                         ),
+
+
+
                       ],
                     ),
-
-
 
                     Row(
                       //Espaçamento igual entre os widets da linha
@@ -180,19 +212,20 @@ AULA 166 - CRIANDO CARD DOS PRODUTOS PROGRAMATICAMENTE
       child: questaceita.questData == null ?
         FutureBuilder<DocumentSnapshot>(
           future: Firestore.instance.collection("quests")
-              .document(questaceita.idQuestCopia)
-              .get(),
+              .document(questaceita.idQuestCopia).get(),
           builder: (context, snapshot){
+
             /*
             AULA 166 - 6:00 a 7:00 aproximadamente
             Se o snapshot tiver dados, eu acesso o método da classe Quests
             e passo ela para o atributo questData dentro de Quest_Accept_Model
              */
             if(snapshot.hasData){
+              print("==================: "+snapshot.data["titulo_quest"]);
               questaceita.questData = Quests.fromDocument(snapshot.data);
-              /*questaceita.questData.titulo = snapshot.data["titulo_quest"];
+              questaceita.questData.titulo = snapshot.data["titulo_quest"];
               questaceita.questData.descricao = snapshot.data["descricao_quest"];
-              questaceita.questData.xp = snapshot.data["xp"];*/
+              questaceita.questData.xp = snapshot.data["xp"];
               return _buildContent();
             } else {
               return Container(

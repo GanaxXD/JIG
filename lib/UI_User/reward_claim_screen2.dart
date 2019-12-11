@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:job_is_a_game_app/models/user.dart';
 import 'package:job_is_a_game_app/widgets/card_reward.dart';
@@ -7,17 +8,28 @@ import 'package:scoped_model/scoped_model.dart';
 
 class RewardClaim2 extends StatefulWidget {
 
-  RewardClaim2(this.pageControler);
+  RewardClaim2(this.pageControler, this.userFirebaseId);
   final PageController pageControler;
+  final String userFirebaseId;
+
+
+
+  Future<User> u2;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseUser firebaseUser;
+
+
 
   @override
-  _RewardClaimState2 createState() => _RewardClaimState2(pageControler);
+  _RewardClaimState2 createState() => _RewardClaimState2(pageControler, userFirebaseId);
 }
 
 class _RewardClaimState2 extends State<RewardClaim2> {
 
   final PageController pageControler;
-  _RewardClaimState2(this.pageControler);
+  final String userFirebaseId;
+  _RewardClaimState2(this.pageControler, this.userFirebaseId);
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +57,25 @@ class _RewardClaimState2 extends State<RewardClaim2> {
                           style: TextStyle(fontFamily: 'helvetica',fontSize: 16, fontWeight: FontWeight.normal),),),
                         Text("XP", style: TextStyle(fontFamily: 'helvetica',fontSize: 16, fontWeight: FontWeight.bold),),
                         Padding(padding: EdgeInsets.only(left: 5), child: Text("${!model.isLoggedIn() ? "0" : model.userData["xp"].toString()}"),),
-                        Padding(padding: EdgeInsets.only(left: 60), child: Text("Next Lv."),),
+
+
+                        Padding(
+                          padding: EdgeInsets.only(left: 60),
+                          child: Text("Next Lv. "),),
                         model.userData["level"] == 0 ?
-                        Padding(padding: EdgeInsets.only(left: 10), child: Text("0",
-                          //!model.isLoggedIn() ? "0": leveis.data["${model.userData["level"]}"]
-                        ),)
-                            : Padding(padding: EdgeInsets.only(left: 10), child: Text("${[model.userData["level"]]}",
-                          //!model.isLoggedIn() ? "0": leveis.data["${model.userData["level"]}"]
-                        ),),
+                        Padding(
+                          padding: EdgeInsets.only(left: 10), child: Text("0"),
+                        )
+                            : Padding(padding: EdgeInsets.only(left: 10),
+                          child: StreamBuilder<DocumentSnapshot>(
+                              stream: Firestore.instance.collection("lista_Leveis").document("listaLv").snapshots(),
+                              builder: (context, snapshot) {
+                                return Text("${snapshot.data["${model.userData["level"]}".toString()]}",
+                                );
+                              }
+                          ),
+                        ),
+
                       ],
                     ),
                   ),
@@ -70,14 +93,15 @@ class _RewardClaimState2 extends State<RewardClaim2> {
                       descrRecompensa: "Este é apenas um teste",
                       regraUsoRecompensa: "Tesstes para o app",
                       mensagemLvInsuficiente: "Sem  level requerido",
-                      idUserFirebase: model.firebaseUser.uid,
+                      idUserFirebase: userFirebaseId,
                       xpCusto: 10,
                       lvRequerido: 1,
                       lvUsuario: model.userData["level"],
                       xpTotaldoUsuario: model.userData["xp"],
-                      //user: model,
 
                   ),
+
+
 
 
 
@@ -95,5 +119,6 @@ class _RewardClaimState2 extends State<RewardClaim2> {
   Widget RewardCard(String tituloCard, String descricao, int custoXp){
 
   }
+
 
 }

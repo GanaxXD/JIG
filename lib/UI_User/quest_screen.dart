@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:job_is_a_game_app/UI_User/documents_screen.dart';
 import 'package:job_is_a_game_app/UI_User/home_user.dart';
@@ -7,6 +8,8 @@ import 'package:job_is_a_game_app/models/questAccepts_model.dart';
 import 'package:job_is_a_game_app/models/quests_accepts.dart';
 import 'package:job_is_a_game_app/models/quets.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:zoomable_image/zoomable_image.dart';
+
 
 class QuestScreen extends StatefulWidget {
 
@@ -44,17 +47,22 @@ class _QuestScreenState extends State<QuestScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch, //Para que tudo ocupe o máximo de espaço possível
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(quest.id, style: TextStyle(fontFamily: 'Helvetica',
+                    /*Text("Missão: ${quest.id}", style: TextStyle(fontFamily: 'Helvetica',
+                        fontWeight: FontWeight.bold, color: Colors.black54, fontSize: 20),
+                      textAlign: TextAlign.center,),*/
+                    SizedBox(height: 25,),
+
+                    Text("Missão: ${quest.titulo}", style: TextStyle(fontFamily: 'Helvetica',
                         fontWeight: FontWeight.bold, color: Colors.black54, fontSize: 20),
                       textAlign: TextAlign.center,),
 
-                    Text(quest.titulo, style: TextStyle(fontFamily: 'Helvetica',
+                    Text("Missão: ${quest.idworkflow}", style: TextStyle(fontFamily: 'Helvetica',
                         fontWeight: FontWeight.bold, color: Colors.black54, fontSize: 20),
                       textAlign: TextAlign.center,),
 
                     Divider(height: 50,),
 
-                    Text(quest.descricao, style: TextStyle(fontFamily: 'Helvetica',
+                    Text("Descrição da Missão: ${quest.descricao}", style: TextStyle(fontFamily: 'Helvetica',
                       fontWeight: FontWeight.normal, color: Colors.black38, fontSize: 18,),
                       textAlign: TextAlign.justify,),
 
@@ -74,8 +82,6 @@ class _QuestScreenState extends State<QuestScreen> {
                       fontWeight: FontWeight.normal, color: Colors.blueAccent[600], fontSize: 12,),),
 */
 
-
-
                     Divider(height: 50,),
 
                     Text("Guerreiros Convocados para a missão:", style: TextStyle(fontFamily: 'Helvetica',
@@ -84,6 +90,18 @@ class _QuestScreenState extends State<QuestScreen> {
                     //Circulos com as imagens dos guerreiros: Uma ideia de organização dos ícones está na aula 151, 2:30. Já dos círculos, ver a aula do chat.
 
                     Divider(height: 50,),
+
+                    Text("Workflow:", style: TextStyle(fontFamily: 'Helvetica',
+                      fontWeight: FontWeight.normal, color: Colors.indigoAccent, fontSize: 16,),
+                      textAlign: TextAlign.justify,),
+
+                    SizedBox(height: 15,),
+
+
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      child: _retornaImagem(quest.idworkflow),
+                    ),
 
                     Container(
                       width: MediaQuery.of(context).size.width,
@@ -139,14 +157,19 @@ class _QuestScreenState extends State<QuestScreen> {
                                 color: Colors.green),
                           ),
                           corTexto: Colors.green,
-                          apertar: () {
+                          apertar: () async {
                             //AULA 163 () - adicionando a quest na lista de quests aceitas
                             QuestsAccepts aceita = QuestsAccepts();
                             aceita.idQuestCopia = quest.id;
+                            print("==============================: "+aceita.idQuestCopia);
                             aceita.titulo = quest.titulo;
+                            print("==============================: "+aceita.titulo);
                             aceita.descricao = quest.descricao;
+                            print("==============================: "+aceita.descricao);
                             aceita.aceita = true;
-
+                            print("==============================: "+aceita.aceita.toString());
+                            aceita.questData = quest;
+                            aceita.id = quest.idBanco;
 
                             QuestAcceptModel.of(context).addQuest(aceita);
 
@@ -214,6 +237,26 @@ class _QuestScreenState extends State<QuestScreen> {
                     ),
 
 
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        child: BotaoCircular1(
+                          fundo: Colors.white,
+                          texto: Text("Voltar",
+                            style: TextStyle(
+                                color: Colors.grey),
+                          ),
+                          corTexto: Colors.grey,
+                          apertar: () => Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => HomeUser()
+                                    )
+                                  ),
+                        ),
+                      ),
+                    ),
+
+
                   ],
                 ),
               ),
@@ -222,5 +265,20 @@ class _QuestScreenState extends State<QuestScreen> {
           ),
         ),
         onWillPop: (){});
+  }
+
+  Widget _retornaImagem(int idWorkflow){
+    if(idWorkflow == 0){
+      return PhotoView(
+        imageProvider: AssetImage('assets/img/WorkflowJIG-Troca_de_hardware_ou_componente_defeituoso.png'));
+    } else if (idWorkflow == 1){
+      return ZoomableImage(new AssetImage('assets/img/WorkflowJIG-Troca_de_cabos_de_conexão_com_a_internet.png',));
+    } else if (idWorkflow == 2){
+      return ZoomableImage(new AssetImage('assets/img/WorkflowJIG-Solicitação_de_equipamentos_e_periféricos_aos_fornecedores.png', ));
+    } else if (idWorkflow == 3){
+      return ZoomableImage(new AssetImage('assets/img/WorkflowJIG-Conserto_de_hardware_defeituoso.png', ));
+    } else {
+      Text("Workflow não definido.");
+    }
   }
 }

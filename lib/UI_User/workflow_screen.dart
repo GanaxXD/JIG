@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:job_is_a_game_app/widgets/custom_drawer.dart';
 
 class Workflow extends StatefulWidget {
   @override
@@ -17,23 +18,26 @@ class _WorkflowState extends State<Workflow> {
     scaffoldKey.currentState.showSnackBar(snackbar);
   }
 
+  final pageControler = PageController();
+
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
         child: Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("Workflow"),
-        backgroundColor: Colors.indigo,
-        key: scaffoldKey,
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.info),
-              onPressed: mostrarSnackBar
+          drawer: CustomDrawer(pageControler),
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text("Workflow"),
+            backgroundColor: Colors.indigo,
+            key: scaffoldKey,
+            actions: <Widget>[
+              IconButton(icon: Icon(Icons.info),
+                  onPressed: mostrarSnackBar
+              ),
+            ],
           ),
-        ],
-      ),
-    ),
+        ),
         onWillPop: (){});
   }
 }

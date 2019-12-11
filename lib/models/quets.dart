@@ -34,7 +34,7 @@ class Quests {
   List <int> guerreiros = List();
   String titulo, descricao;
   DateTime dataInicio, dataFim;
-  int idworkflow, xp;
+  int idworkflow, xp, idBanco;
   bool concluida;
   bool aceita = false;
 
@@ -66,6 +66,7 @@ class Quests {
     xp = snapshot.data["xp"];
     concluida = snapshot.data["concluida"];
     aceita = snapshot.data["aceita"];
+    idworkflow = snapshot.data["workflow"];
   }
 
   //Transformando dados do firebase na classe
@@ -86,8 +87,8 @@ class Quests {
       "id": id,
       "titulo_quest": titulo,
       "descricao_quest": descricao,
-      /*"dtInicio": dataInicio,
-      "dtFim": dataFim,*/
+      //"dtInicio": dataInicio,
+      //"dtFim": dataFim,
       "idworkflow": idworkflow,
       "concluida": false,
       "xp": 1,
@@ -105,6 +106,10 @@ class Quests {
       "descricao_quest": descricao,
       "xp": xp,
       "dtInicio_quest": dataInicio,
+      "dtFim_quest" : dataFim,
+      "id_quest" : id,
+      "id_Banco" : idBanco,
+      "id_workflow" : idworkflow,
       "aceita": true,
     };
   }

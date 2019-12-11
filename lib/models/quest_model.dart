@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:job_is_a_game_app/models/quets.dart';
 import 'package:job_is_a_game_app/models/user.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -9,6 +10,8 @@ class QuestModel extends Model {
   List<Quests> missoes = [];
 
   QuestModel(this.usuario);
+
+  static QuestModel of(BuildContext context) => ScopedModel.of<QuestModel>(context);
 
   //SALVAR MISSÃO: AULA 162
   //Acho que pode ser string o retorno pra enviar uma mensagem a ser exibida em um snackbar
@@ -22,7 +25,7 @@ class QuestModel extends Model {
      */
     Firestore.instance.collection("usuarios")
         .document(usuario.firebaseUser.uid)
-        .collection("minhasQuests").add(quest.toMap()).then((doc){
+        .collection("questsAceitas").add(quest.toMap()).then((doc){
           quest.id = doc.documentID;
     });
     notifyListeners();
@@ -31,7 +34,7 @@ class QuestModel extends Model {
   //DELETAR MISSÃO: AULA 162
   void deleteQuest(Quests quest) {
     Firestore.instance.collection("usuarios").document(usuario.firebaseUser.uid)
-        .collection("minhasQuests").document(quest.id).delete();
+        .collection("questsAceitas").document(quest.id).delete();
 
     missoes.remove(quest);
     notifyListeners();

@@ -53,7 +53,7 @@ class _QuestsAvaliableState extends State<QuestsAvaliable> {
           body: ScopedModelDescendant<User>(
             builder: (context, child, model){
               this.questsAceitas = QuestAcceptModel(model);
-              this.questsDoUsuario = questsAceitas.questesAceitas;
+              this.questsDoUsuario = questsAceitas.questesAcce;
               return SingleChildScrollView(
                 //scrollDirection: Axis.vertical,
                 padding: EdgeInsets.all(10.0),

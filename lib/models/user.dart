@@ -60,6 +60,7 @@ class User extends Model{
       }).catchError((e){
         onFail();
         isLoading = false;
+        print(e.toString());
         notifyListeners();
       });
   }
@@ -149,10 +150,25 @@ class User extends Model{
     notifyListeners();
   }
 
+  Future<Null> loadCurrentUser() async{
+    if(firebaseUser == null)
+      firebaseUser = await _auth.currentUser();
+    if(firebaseUser !=null)
+      if(userData["nome"]==null){
+        DocumentSnapshot docUser = await Firestore.instance.collection("usuarios").document(firebaseUser.uid).get();
+        userData = docUser.data;
+      }
+    notifyListeners();
+  }
 
-  Future<int> compraMissao(int xpTotaldoUsuario, String idUserFirebase, int xpCusto) async{
-    userData["xp"] = Firestore.instance.collection("usuarios").document(idUserFirebase.toString())
-        .updateData({"xp" : xpTotaldoUsuario = xpTotaldoUsuario - xpCusto});
+
+  void compraMissao(int xpTotaldoUsuario, User user, int xpCusto) async{
+    /*userData["xp"] = Firestore.instance.collection("usuarios").document(idUserFirebase)
+        .updateData({"xp" : xpTotaldoUsuario = xpTotaldoUsuario - xpCusto});*/
+    Firestore.instance.collection("usuarios")
+        .document(user.firebaseUser.uid)
+        .updateData(
+        {"xp": xpTotaldoUsuario - xpCusto});
 
     notifyListeners();
   }

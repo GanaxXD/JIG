@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:job_is_a_game_app/UI_User/creat_quest_screen.dart';
+import 'package:job_is_a_game_app/UI_User/finish_quest_screen.dart';
 import 'package:job_is_a_game_app/UI_User/out_screen.dart';
 import 'package:job_is_a_game_app/UI_User/quests_aceepts_screen.dart';
 import 'package:job_is_a_game_app/UI_User/reward_claim_screen.dart';
@@ -33,64 +35,29 @@ class _HomeUserState extends State<HomeUser>{
   Future<QuerySnapshot> snapshot;
 
 
+  Future<List> listaAceitas;
+
   @override
   Future initState() async {
-    leveis = await Firestore.instance.collection("lista_Leveis").document("listaLev").get();
-    snapshot = Firestore.instance.collection("lista_Leveis").getDocuments();
-  }*/
-
+    //listaAceitas = await Firestore.instance.document("usuarios").
+  }
+*/
   final pageControler = PageController();
   QuestAcceptModel questsAceitas;
-  List questsDoUsuario = [];
+  List a = [];
+  Future<List> questsDoUsuario;
   Future<DocumentSnapshot> qAceitas;
+  String userFirebaseId;
 
-  List nextLevel;
-  Future<List> nextLevel2;
-  int d=0;
-  Future<int> lll;
-  int dd;
 
- /* Future<DocumentSnapshot> listaDeXp = Firestore.instance.collection("lista_Leveis").document("listaLev").get().then((doc){
-    nextLevel.add(doc.data["xpNecessario"][0]);
-  });*/
 
-      /*.then((doc){
-    int i = 0;
-    while(i<=100){
-      *//*nextLevel.add(doc.data["xpNecessario"][i]);
-      nextLevel[i] = doc.data["xpNecessario"][i];*//*
-      i++;
-    }
-  });*/
+  Future<List> loadMissions (User user) async {
+    QuerySnapshot query = await Firestore.instance.collection("usuarios").document(user.firebaseUser.uid)
+        .collection("questsAceitas").getDocuments();
+    a = query.documents.map((doc) => QuestsAccepts.fromDocument(doc)).toList();
 
-  Future<int> loadListLevels(int level) async{
-    Iterable ll;
-    DocumentSnapshot docLev = await Firestore.instance.collection("lista_Leveis").document("listaLv").get();
-    nextLevel = docLev.data["level"];
-    ll = nextLevel.getRange(level, level);
-    return ll.elementAt(0);
+    return a;
   }
-
-  Future<int> loadListLevels2(int level) async{
-    DocumentSnapshot docLev = await Firestore.instance.collection("lista_Leveis").document("listaLv").get().then((doc){
-      dd = doc.data[4];
-    });
-    //nextLevel.add(docLev.data[level.toString()]);
-    //return ll = nextLevel[0];
-    return dd;
-  }
-
-  /*List<Level> questesAceitas = [];
-
-  void _loadLeveis() async{
-    QuerySnapshot query = await Firestore.instance.collection("lista_Leveis").document("listaLev").getDocuments();
-
-    questesAceitas = query.documents.map((doc) => Level.fromDocument(doc)).toList();
-
-  }*/
-
-
-
 
 
   @override
@@ -123,16 +90,8 @@ class _HomeUserState extends State<HomeUser>{
               //pARA QUE A TELA SEJA MODIFICADA COM OS ESTADOS DO USER, QUE É UM MODEL,
               //EU USO O SCOPEDMODELDESCENDENT, ESPECIFICANDO
               //UM BIULDER COM UM CONTEXTO, UM CHILD E UM MODEL. ESSE MODEL PODERÁ SER ACESSADO POR QUALQUER PARTE DA PÁGINA CRIADA
-              body: ScopedModelDescendant<User>(
-                builder: (context, child, model){
-
-
-
-
-                  this.lll = loadListLevels2(model.userData["level"]);
-
-
-
+              body: ScopedModelDescendant<User> (
+                builder: (context, child, model) {
 
                   return SingleChildScrollView(
                     //scrollDirection: Axis.vertical,
@@ -147,27 +106,50 @@ class _HomeUserState extends State<HomeUser>{
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Wrap(
-                                  //mainAxisAlignment: MainAxisAlignment.center,
-                                  //crossAxisAlignment: CrossAxisAlignment.center,
+                                StreamBuilder<DocumentSnapshot>(
+                                  //Ao criar a quest, preciso inserir um campo chamado status. Talvez eu precise usar as questsAceitas
+                                  stream: Firestore.instance.collection("usuarios").document(model.firebaseUser.uid).snapshots(),//Firestore.instance.collection("quests").document(questId).snapshots(),
+                                  builder: (context, snapshot){
+                                    print("=====================: ${model.firebaseUser.uid}");
+                                    return Wrap(
+                                      children: <Widget>[
+                                        Padding(padding: EdgeInsets.only(right: 5), child: Text("Level: ",
+                                          style: TextStyle(fontFamily: 'helvetica',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),),),
+                                        Padding(padding: EdgeInsets.only(right: 30),
+                                          child: Text("${!model.isLoggedIn() ? "0" : model.userData["level"]
+                                              .toString()}",
+                                            style: TextStyle(fontFamily: 'helvetica',
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal),),),
+                                        Text("XP", style: TextStyle(fontFamily: 'helvetica',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),),
+                                        Padding(padding: EdgeInsets.only(left: 5),
+                                          child: Text("${!model.isLoggedIn() ? "0": snapshot.data["xp"].toString()}"),),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 60),
+                                          child: Text("Next Lv. "),),
+                                            model.userData["level"] == 0 ?
+                                            Padding(
+                                              padding: EdgeInsets.only(left: 10), child: Text("0"),
+                                        )
+                                            : Padding(padding: EdgeInsets.only(left: 10),
+                                          child: StreamBuilder<DocumentSnapshot>(
+                                              stream: Firestore.instance.collection("lista_Leveis")
+                                                  .document("listaLv").snapshots(),//Firestore.instance.collection("quests").document(questId).snapshots(),
+                                              builder: (context, snapshot) {
+                                                return Text("${snapshot.data["${model.userData["level"].toString()}"]}",
+                                                );
+                                              }
+                                          ),
+                                        ),
 
-                                  children: <Widget>[
-                                    Padding(padding: EdgeInsets.only(right: 5), child: Text("Level: ",
-                                      style: TextStyle(fontFamily: 'helvetica',fontSize: 16, fontWeight: FontWeight.bold),),),
-                                    Padding(padding: EdgeInsets.only(right: 30), child: Text("${!model.isLoggedIn() ? "0" : model.userData["level"].toString()}",
-                                      style: TextStyle(fontFamily: 'helvetica',fontSize: 16, fontWeight: FontWeight.normal),),),
-                                    Text("XP", style: TextStyle(fontFamily: 'helvetica',fontSize: 16, fontWeight: FontWeight.bold),),
-                                    Padding(padding: EdgeInsets.only(left: 5), child: Text("${!model.isLoggedIn() ? "0" : model.userData["xp"].toString()}"),),
-                                    Padding(padding: EdgeInsets.only(left: 60), child: Text("Next Lv."),),
-                                    model.userData["level"] == 0 ?
-                                      Padding(padding: EdgeInsets.only(left: 10), child: Text("${d.toString()
-                                          }",
-                                        //!model.isLoggedIn() ? "0": leveis.data["${model.userData["level"]}"]
-                                      ),)
-                                    : Padding(padding: EdgeInsets.only(left: 10), child: Text("${[model.userData["level"]]}",
-                                      //!model.isLoggedIn() ? "0": leveis.data["${model.userData["level"]}"]
-                                    ),),
-                                  ],
+                                      ],
+                                    );
+
+                                  },
                                 ),
                               ],
                             ),
@@ -218,19 +200,15 @@ class _HomeUserState extends State<HomeUser>{
                                 return ListView.builder(
                                   itemCount: snapshot.data.documents.length,
                                   shrinkWrap: true,
-                                  reverse: true,
+                                  reverse: false,
                                   scrollDirection: Axis.vertical,
                                   physics: NeverScrollableScrollPhysics(),
                                   padding: EdgeInsets.all(12.0),
                                   itemBuilder: (context, index){
 
-                                    if(!snapshot.data.documents[index]["concluida"] == true){
+                                    if(!snapshot.data.documents[index]["concluida"] == true){// && questsDoUsuario[index]["idQuest"] != snapshot.data.documents[index]["titulo_quest"]){
                                       return QuestTile(context, Quests.fromDocument(snapshot.data.documents[index]));
                                     }
-                                    /*if(!snapshot.data.documents[index]["concluida"] == true || !snapshot.data.documents[index]["aceita"] == false){
-                                      //return criaCard(context, snapshot.data.documents[index]);
-                                      return QuestTile(context, Quests.fromDocument(snapshot.data.documents[index]));
-                                    }*/
                                   },
                                 );
                               }//else
@@ -261,7 +239,7 @@ class _HomeUserState extends State<HomeUser>{
                     padding: EdgeInsets.only(right: 10),
                     child: ScopedModelDescendant<QuestAcceptModel>(
                       builder: (context, child, model){
-                        int q = model.questesAceitas.length;
+                        int q = model.questesAcce.length;
                         //1ª Expressão: Se q for nulo, ele retorna zero, se não, retorna o valor de q.
                         //2ª expressão: se q = 1 ou =0, escrevo Quest. Se for mais, escrevo Quests
                         return Text("${q ?? 0} ${q == 1 || q == 0 ? "Quest" : "Quests"}",
@@ -278,13 +256,44 @@ class _HomeUserState extends State<HomeUser>{
 
             Scaffold(
               appBar: AppBar(
-                title: Text("Clamar Recompensas"),
+                title: Text("Quests Concluídas"),
                 backgroundColor: Colors.indigo,
                 centerTitle: true,
                 //Colocar um ícone para exibir um snackbar informando que essa tela é destinada apenas a informações principais da quest
               ),
               //A appBar já foi definida na tela da classe quest_accept_screen
-              body: RewardClaim2(pageControler),
+              body: QuestsConcluidas(),
+              drawer: CustomDrawer(pageControler),
+
+            ),
+
+            Scaffold(
+              appBar: AppBar(
+                title: Text("Clamar Recompensas"),
+                backgroundColor: Colors.indigo,
+                centerTitle: true,
+                //Colocar um ícone para exibir um snackbar informando que essa tela é destinada apenas a informações principais da quest
+              ),
+              drawer: CustomDrawer(pageControler),
+              //A appBar já foi definida na tela da classe quest_accept_screen
+              body: ScopedModelDescendant<User>(
+                builder: (context, child, model) {
+                  return RewardClaim2(pageControler, userFirebaseId);
+                },
+
+
+              ),),
+
+
+            Scaffold(
+              appBar: AppBar(
+                title: Text("Criar Missão"),
+                backgroundColor: Colors.indigo,
+                centerTitle: true,
+                //Colocar um ícone para exibir um snackbar informando que essa tela é destinada apenas a informações principais da quest
+              ),
+              //A appBar já foi definida na tela da classe quest_accept_screen
+              body: CriarQuest(pageControler),
               drawer: CustomDrawer(pageControler),
 
             ),
@@ -309,116 +318,5 @@ class _HomeUserState extends State<HomeUser>{
 
 
   }
-
-
-
-  //Usarei um card para cada quest recuperada do banco
-  //Aula 99
-  /*Widget criaCard(BuildContext context, DocumentSnapshot snapshot) {
-    return InkWell(
-          //COLOCAR AQUI O NAVIGATOR PARA A TELA DE INFORMAÇÕES GERAIS DA QUEST
-          onTap: (){
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context)=>QuestScreen(widget.quest))
-            );
-          },
-          child: Card(
-                //margem
-                child: Padding(padding: EdgeInsets.all(14.0),
-                  child: Row(
-                    children: <Widget>[
-                      //Imagem
-                      Container(
-                        //Criando o círculo no cantainer com medidas iguais pra não ficar achatado
-                        width: 30.0,
-                        height: 30.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: AssetImage('assets/img/guerreiro.jpg'),
-                            //fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-
-                      //Espaço entre a imagem e o texto e os dados da quest
-                      Padding(padding: EdgeInsets.only(left: 20.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                          snapshot["titulo_quest"].length >20? Text("${snapshot["titulo_quest"]}".substring(0,20)+"...",
-                              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, fontFamily: 'Helvetica'),
-                            ) : Text("${snapshot["titulo_quest"]}",
-                              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, fontFamily: 'Helvetica'),
-                            ),
-                          snapshot["descricao_quest"].length>20 ?
-                          Text("Missão: ${snapshot["descricao_quest"]}".substring(0,40)+"...",
-                            style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.normal, fontFamily: 'Helvetica')):
-                              Text("Missão: ${snapshot["descricao_quest"]}", style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.normal, fontFamily: 'Helvetica'),),
-
-                          Text("XP: ${snapshot["xp"].toString()}",
-                              style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.normal, fontFamily: 'Helvetica'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-    );
-  }*/
-
- /* Widget criaCard3(DocumentSnapshot snapshot) {
-    return GestureDetector(
-      //COLOCAR AQUI O NAVIGATOR PARA A TELA DE INFORMAÇÕES GERAIS DA QUEST
-      onTap: (){},
-      child: Card(
-        //margem
-        child: Padding(padding: EdgeInsets.all(14.0),
-          child: Row(
-            children: <Widget>[
-              //Imagem
-              Container(
-                //Criando o círculo no cantainer com medidas iguais pra não ficar achatado
-                width: 65.0,
-                height: 65.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: AssetImage('assets/img/guerreiro.jpg'),
-                    //fit: BoxFit.fill,
-                  ),
-                ),
-              ),
-
-              //Espaço entre a imagem e o texto e os dados da quest
-              Padding(padding: EdgeInsets.only(left: 20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(snapshot["titulo_quest"],
-                      style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold, fontFamily: 'Helvetica'),
-                    ),
-                    Text("Missao: ${snapshot["descricao_quest"]}", maxLines: 1,
-                      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal, fontFamily: 'Helvetica'),
-                    ),
-                    Text("XP: ${snapshot["xp"].toString()}",
-                      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal, fontFamily: 'Helvetica'),
-                    ),
-                  ],
-                ),
-              ),
-
-
-
-            ],
-          ),
-        ),
-      ),
-    );
-  }*/
 
 }
