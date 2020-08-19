@@ -206,7 +206,6 @@ class RewardClaim2 extends StatelessWidget {
                                   ),),
                                   onPressed: model.userData["level"] >= 1 ? (){
                                     if(model.userData["xp"] >= xp1){
-                                      //model.userData["xp"] = model.userData["xp"] - xp1;
                                       Firestore.instance.collection("usuarios").document(model.firebaseUser.uid)
                                           .updateData({"xp" : model.userData["xp"] = model.userData["xp"] - xp1});
                                       return Alert(
@@ -231,8 +230,7 @@ class RewardClaim2 extends StatelessWidget {
                                         context: context,
                                         title: "Experiência Insuficiente!",
                                         desc: "Infelizmente você não possui XP suficiente para realizar a compra"
-                                            "da recompensa. Continue realizando suas missões para conseguir comprar"
-                                            "recompensas.",
+                                            "da recompensa. Continue realizando suas missões para conseguir comprar recompensas.",
                                         image: Image.asset('assets/img/banimento.png', fit: BoxFit.fill,),
                                         buttons: [
                                           DialogButton(
