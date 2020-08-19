@@ -36,7 +36,27 @@ Bibliotecas:
  ## Visão da aplicação
  
 Abaixo temos algumas telas do sistema:  
+    
+###### Telas Iniciais
+<p align="left">
+  <img src="readme/Screenshot1.jpg" width="250" title="Tela Inicial">
+  <img src="readme/Screenshot2(1).jpg" width="250" alt="Tela de Credenciais">
+  <img src="readme/Screenshot2(5).jpg" width="250" alt="Tela de criação de conta">
+</p>
   
-![](name-of-giphy.gif)  
   
-![Tela_Principal](https://drive.google.com/file/d/125kJvNiBC4hRhPHi0mNXxOYJXRGo_GYm/view?usp=sharing)
+###### Usuário Logado  
+<p align="left">
+  <img src="readme/Screenshot2(6).jpg" width="250" title="Tela Principal">
+  <img src="readme/Screenshot2(10).jpg" width="250" alt="Controlador de páginas (Drawer Tile)">
+</p> 
+  
+  
+  
+###### Missão e  Workflow
+<p align="left">
+  <img src="readme/2.gif" width="250" title="Missões e Workflow">
+  <img src="readme/1.gif" width="250" alt="Missões e Workflow">
+  <img src="readme/4.gif" width="250" alt="Missões e Workflow">
+  <img src="readme/3.gif" width="250" alt="Missões e Workflow">
+</p>  
