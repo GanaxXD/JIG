@@ -114,7 +114,7 @@ class _CadastroState extends State<Cadastro> {
                 scrollDirection: Axis.vertical,
                 padding: EdgeInsets.all(16),
                 children: <Widget>[
-                  Align(
+                  /*Align(
                     alignment: Alignment.center,
                     child: CircleAvatar(
                       radius: 85,
@@ -135,7 +135,8 @@ class _CadastroState extends State<Cadastro> {
                         ),
                       ),
                     ),
-                  ),
+                  ),*/
+                  /*
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -159,7 +160,7 @@ class _CadastroState extends State<Cadastro> {
                   Text("*É necessário inserir uma foto para o seu usuário.", style: TextStyle(
                     fontSize: 10, fontFamily: 'Helvetica', color: Colors.red, fontWeight: FontWeight.w400,
                   ), textAlign: TextAlign.center,),
-
+*/
                   SizedBox(height: 30,),
                   TextFormField(
                     controller: _nameControle,
@@ -322,7 +323,8 @@ class _CadastroState extends State<Cadastro> {
                       var id = await Firestore.instance.collection("idUser").document("id").get().then((doc){
                         idDoBanco = doc.data["id"];
                       });
-                      print("Aqui? ${id}");
+
+                      print("Aqui? ${idDoBanco}");
 
                       if(_formkey.currentState.validate()){
                         /*//uploadPic(context);
@@ -336,13 +338,13 @@ class _CadastroState extends State<Cadastro> {
                         imagemDoFirestore = await firebaseStorage.getDownloadURL();
                         print(imagemDoFirestore.toString());*/
 
-                        if (_imagem == null) return;
-                        StorageUploadTask task = FirebaseStorage.instance.ref()
+                        //if (_imagem == null) return;
+                       /* StorageUploadTask task = FirebaseStorage.instance.ref()
                             .child("Photo_Users").child("${idDoBanco}LogginPerfil"+
                         DateTime.now().millisecondsSinceEpoch.toString()).putFile(_imagem);
                         StorageTaskSnapshot taskSnapshot = await task.onComplete;
                         String url = await taskSnapshot.ref.getDownloadURL();
-
+*/
                         //uploadPic(context);
 
                         //https://stackoverflow.com/questions/50836339/flutter-firestore-how-to-display-an-image-from-firestore-in-flutter
@@ -358,12 +360,11 @@ class _CadastroState extends State<Cadastro> {
                           "email": _emailControle.text,
                           "xp": 0,
                           "level": int.fromEnvironment(_tempoTrabalhoControle.text, defaultValue: 0), //CORRIGIR. ELE ESTÁ INDO COMO UMA STRING
-                          "photoUser": url.toString(),//url.toString(),
+                          //"photoUser": url.toString(),//url.toString(),
                           "id": idDoBanco.toString(),
 
                           //Se a senha for salva aqui, ela irá para o firestore em um campo string, quee será visível: uma péssima ideia.
                         };
-                        print("Cheguei aqui");
 
                         idDoBanco = idDoBanco+1;
                         Firestore.instance.collection("idUser").document("id").updateData({"id": idDoBanco});
@@ -373,7 +374,6 @@ class _CadastroState extends State<Cadastro> {
                             onSucess: _onSuccess,
                             onFail: _onFail
                         );
-                        print("Cheguei aqui 2");
                       }
 
                     },
