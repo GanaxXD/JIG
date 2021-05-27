@@ -13,14 +13,14 @@ class QuestModel extends Model {
 
   static QuestModel of(BuildContext context) => ScopedModel.of<QuestModel>(context);
 
-  //SALVAR MISSÃO: AULA 162
+  //SALVAR MISSÃO
   //Acho que pode ser string o retorno pra enviar uma mensagem a ser exibida em um snackbar
   void addQuestPessoal(Quests quest){
     missoes.add(quest);
 
     /*
     Guardando quests aceitas pelo usuário, além da concluída.
-    AULA 162: O id da quest será dado pelo firebase, logo, preciso fazer
+    O id da quest será dado pelo firebase, logo, preciso fazer
     o .then ao fim do add. Para isso eu pego o id do documento e seto na quest
      */
     Firestore.instance.collection("usuarios")
@@ -31,7 +31,7 @@ class QuestModel extends Model {
     notifyListeners();
   }
 
-  //DELETAR MISSÃO: AULA 162
+  //DELETAR MISSÃO
   void deleteQuest(Quests quest) {
     Firestore.instance.collection("usuarios").document(usuario.firebaseUser.uid)
         .collection("questsAceitas").document(quest.id).delete();
@@ -40,7 +40,7 @@ class QuestModel extends Model {
     notifyListeners();
   }
 
-  //DELETAR MISSÃO: AULA 162
+  //DELETAR MISSÃO
   void deleteQuestPorString(String quest) async {
 
     Firestore.instance.collection("usuarios").document(usuario.firebaseUser.uid)

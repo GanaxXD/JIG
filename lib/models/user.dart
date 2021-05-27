@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-//AULA 154: INTRODUÇÃO AO SCOPEDMODEL - Extends Model para que essa classe possa ter seus estados do seu modelo
+// SCOPEDMODEL - Extends Model para que essa classe possa ter seus estados do seu modelo
 // compartilhados em toda a aplicação. Eu preciso dizer nas telas se elas serão afetadas ou não pelos models.
 class User extends Model{
 
-  //AULA 155 - LOGIN
+  //LOGIN
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser firebaseUser;
   Map<String, dynamic> userData = Map();
@@ -17,13 +17,10 @@ class User extends Model{
   final googleSignIn = GoogleSignIn();
   GoogleSignInAccount userGoogle = null;
 
-  //AULA 163: método que permite que outras telas acessem minhas informações sem precisar usar o ScoppedModelDescandent
+  //método que permite que outras telas acessem minhas informações sem precisar usar o ScoppedModelDescandent
   //Lembre: static é um método da classe e não do objeto
   static User of(BuildContext context)=> ScopedModel.of<User>(context);
 
-
-
-//AULA 158: 09:01
   @override
   void addListener(VoidCallback listener) {
     super.addListener(listener);
@@ -83,8 +80,6 @@ class User extends Model{
       (user)async{
         firebaseUser = user;
 
-
-        //AULA 158: 09:01
         await _loadCurrentUser();
 
         onSuccess();
@@ -102,7 +97,6 @@ class User extends Model{
   }
 
   /*
-  AULA 157
   Retorna o usuário logado para que eu possa usar
   o nome dele nas páginas :) Retorna tru se o firebaseuser != null.
    */
@@ -111,7 +105,6 @@ class User extends Model{
   }
 
   /*
-  AULA 157
   Desloga.
    */
   void signOut() async {
@@ -121,7 +114,7 @@ class User extends Model{
     notifyListeners();
   }
 
-  //AULA 159: EM 1:55
+  //Recuperar senha
   void recoverPass(String email){
     _auth.sendPasswordResetEmail(email: email);
 
@@ -129,12 +122,11 @@ class User extends Model{
 
   Future<Null> _saveUserData(Map<String, dynamic> userD) async {
     this.userData = userD;
-    //VER AULA 155 - MINUTO 9:08 PARA SETAR O ID DO USER PARA IDENTIFICAÇÃO DO DOCUMENTO
+    //SETAR O ID DO USER PARA IDENTIFICAÇÃO DO DOCUMENTO
     await Firestore.instance.collection("usuarios").document(firebaseUser.uid).setData(userData);
   }
 
   /*
-  AULA 158:
   Função para pegar os dados do
   usuário se ele estiver
   logado.

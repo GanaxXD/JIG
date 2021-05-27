@@ -11,7 +11,7 @@ class FinishedScreen extends StatefulWidget {
   final Quests quest;
   FinishedScreen(this.quest, this.model);
   User model;
-  //NA AULA 150 (TEMPO 0:54'') ELE TEM UM CONSTRUTOR QUE RECEBE O PRODUTO. VERIFICAR COMO ELE FEZ ISSO
+  //ELE TEM UM CONSTRUTOR QUE RECEBE O PRODUTO. VERIFICAR COMO ELE FEZ ISSO
   @override
   _FinishedScreenState createState() => _FinishedScreenState(quest, model);
 }
@@ -87,7 +87,7 @@ class _FinishedScreenState extends State<FinishedScreen> {
                     Text("Guerreiros que participaram da conclusão da missão:", style: TextStyle(fontFamily: 'Helvetica',
                       fontWeight: FontWeight.normal, color: Colors.indigoAccent, fontSize: 16,),
                       textAlign: TextAlign.justify,),
-                    //Circulos com as imagens dos guerreiros: Uma ideia de organização dos ícones está na aula 151, 2:30. Já dos círculos, ver a aula do chat.
+                    //Circulos com as imagens dos guerreiros: Uma ideia de organização dos ícones.
 
                     Divider(height: 50,),
 

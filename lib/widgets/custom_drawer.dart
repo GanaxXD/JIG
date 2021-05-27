@@ -7,7 +7,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 class CustomDrawer extends StatelessWidget {
 
-  //AULA 140: DIRECIONANDO A PÁGINA CONFORME ITEM PRESSIONADO E FECHANDO O MENU
+  //DIRECIONANDO A PÁGINA CONFORME ITEM PRESSIONADO E FECHANDO O MENU
   final PageController pageControler;
   CustomDrawer(this.pageControler);
 
@@ -18,7 +18,7 @@ class CustomDrawer extends StatelessWidget {
     Widget _buildDrawerColor() => Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-            colors: [
+            colors: <Color>[
               Colors.white,
               Colors.indigo,
             ],
@@ -28,7 +28,6 @@ class CustomDrawer extends StatelessWidget {
       ),
     );
 
-    //AULA 138
     return Drawer(
       //Stak porque pretendo por um fundo no drawer
       child: Stack(
@@ -72,7 +71,7 @@ class CustomDrawer extends StatelessWidget {
                               Row(
                                 children: <Widget>[
                                   /*
-                                  AULA 129: IMAGEM da Conta.
+                                  IMAGEM da Conta.
                                   Precisa mudar essa url, pois é só pra testar.
                                    */
                                   Container(
@@ -82,7 +81,7 @@ class CustomDrawer extends StatelessWidget {
                                       radius: 34,
                                       backgroundColor: Colors.blue,
                                       child: CircleAvatar(
-                                        //AULA 126: Pegando a imagem da conta logada
+                                        //Pegando a imagem da conta logada
                                         //NOTA: A IMAGEM NA MINHA CONTA DO IFMA TÁ NULA. PRECISO PUXAR UMA REFERÊNCIA PARA O STORAGE DO FIREBASE.
                                         backgroundImage: model.userData["photoUser"] == null ? AssetImage('assets/img/aceito.png'): NetworkImage(model.userData["photoUser"]),
                                         radius: 30,

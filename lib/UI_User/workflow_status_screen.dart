@@ -222,7 +222,7 @@ class _WorkFlowStatusState extends State<WorkFlowStatus> {
                               children: <Widget>[
                                 _buildCircle("1", "Cliente solicita\nvisita",
                                     statusWorkflow, 1),
-                                //Linha entre ícones: AULA 179: 08:45
+                                //Linha entre ícones
                                 Container(
                                   height: 1.0,
                                   width: 40.0,
@@ -501,7 +501,7 @@ class _WorkFlowStatusState extends State<WorkFlowStatus> {
                               children: <Widget>[
                                 _buildCircle("1", "Cliente solicita\nserviço",
                                     statusWorkflow, 1),
-                                //Linha entre ícones: AULA 179: 08:45
+                                //Linha entre ícones
                                 Container(
                                   height: 1.0,
                                   width: 40.0,
@@ -747,7 +747,6 @@ class _WorkFlowStatusState extends State<WorkFlowStatus> {
                                 _buildCircle(
                                     "1", "Entre em contato\ncom o fornecedor",
                                     statusWorkflow, 1),
-                                //Linha entre ícones: AULA 179: 08:45
                                 Container(
                                   height: 1.0,
                                   width: 40.0,
@@ -982,7 +981,6 @@ class _WorkFlowStatusState extends State<WorkFlowStatus> {
                               children: <Widget>[
                                 _buildCircle("1", "Receba o\nequipamento",
                                     statusWorkflow, 1),
-                                //Linha entre ícones: AULA 179: 08:45
                                 Container(
                                   height: 1.0,
                                   width: 40.0,
@@ -1176,16 +1174,15 @@ class _WorkFlowStatusState extends State<WorkFlowStatus> {
 
   }
 
-  //AULA 178: mostrando detalhes da quest por uma função. Não vou usar porque os dados já estão no card
-  String _buildQuestsText (DocumentSnapshot snapshot){
-    String text = "Descrição:\n";
-    //São as listas do Firbase
-    for(LinkedHashMap q in snapshot.data["questDados"]){
-      text += "${q["xp"]}";
-    }
-  }
+  // mostrando detalhes da quest por uma função. Não vou usar porque os dados já estão no card
+//  String _buildQuestsText (DocumentSnapshot snapshot){
+//    String text = "Descrição:\n";
+//    //São as listas do Firbase
+//    for(LinkedHashMap q in snapshot.data["questDados"]){
+//      text += "${q["xp"]}";
+//    }
+//  }
 
-  //AULA 179:
   Widget _buildCircle(String titulo, String subtitulo, int status, int thisStatus){
 
     Color backColor;
@@ -1229,7 +1226,7 @@ class _WorkFlowStatusState extends State<WorkFlowStatus> {
 
 }
 
-//AULA 177 - ORDER TILE
+//ORDER TILE
 /*
 class WorkFlowStatus extends StatelessWidget {
 
@@ -1391,7 +1388,6 @@ class WorkFlowStatus extends StatelessWidget {
                              children: <Widget>[
                                _buildCircle("1", "Cliente solicita\nvisita",
                                    statusWorkflow, 1),
-                               //Linha entre ícones: AULA 179: 08:45
                                Container(
                                  height: 1.0,
                                  width: 40.0,
@@ -1670,7 +1666,6 @@ class WorkFlowStatus extends StatelessWidget {
                              children: <Widget>[
                                _buildCircle("1", "Cliente solicita\nserviço",
                                    statusWorkflow, 1),
-                               //Linha entre ícones: AULA 179: 08:45
                                Container(
                                  height: 1.0,
                                  width: 40.0,
@@ -1916,7 +1911,6 @@ class WorkFlowStatus extends StatelessWidget {
                                _buildCircle(
                                    "1", "Entre em contato\ncom o fornecedor",
                                    statusWorkflow, 1),
-                               //Linha entre ícones: AULA 179: 08:45
                                Container(
                                  height: 1.0,
                                  width: 40.0,
@@ -2151,7 +2145,6 @@ class WorkFlowStatus extends StatelessWidget {
                              children: <Widget>[
                                _buildCircle("1", "Receba o\nequipamento",
                                    statusWorkflow, 1),
-                               //Linha entre ícones: AULA 179: 08:45
                                Container(
                                  height: 1.0,
                                  width: 40.0,
@@ -2345,7 +2338,7 @@ class WorkFlowStatus extends StatelessWidget {
 
   }
 
-  //AULA 178: mostrando detalhes da quest por uma função. Não vou usar porque os dados já estão no card
+  //mostrando detalhes da quest por uma função. Não vou usar porque os dados já estão no card
   String _buildQuestsText (DocumentSnapshot snapshot){
     String text = "Descrição:\n";
     //São as listas do Firbase
@@ -2354,7 +2347,6 @@ class WorkFlowStatus extends StatelessWidget {
     }
   }
 
-  //AULA 179:
   Widget _buildCircle(String titulo, String subtitulo, int status, int thisStatus){
 
     Color backColor;

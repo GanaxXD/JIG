@@ -49,7 +49,6 @@ class _CriarQuestState extends State<CriarQuest> {
           onWillPop: (){},
           child: Form(
             key: _formkey,
-            autovalidate: true,
             child:  ListView(
                 children: <Widget>[
                   Column(
@@ -57,7 +56,6 @@ class _CriarQuestState extends State<CriarQuest> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       TextFormField(
-                        autovalidate: true,
                         controller: _missao,
                         validator: (text){
                           if(text.isEmpty) return "Título da Missão inválido.";
@@ -123,7 +121,8 @@ class _CriarQuestState extends State<CriarQuest> {
                                         print('confirm $date');
                                         dtIn = date;
                                       }, currentTime: DateTime.now(), locale: LocaleType.pt);
-                                },),
+                                },
+                              ),
                               Text(
                                 'Escolha uma data de lançamento da Missão',
                                 style: TextStyle(color: Colors.blue),
@@ -152,7 +151,8 @@ class _CriarQuestState extends State<CriarQuest> {
                                         print('confirm $date');
                                         dtFm = date;
                                       }, currentTime: DateTime.now(), locale: LocaleType.pt);
-                                },),
+                                },
+                              ),
                               Text(
                                 'Escolha um prazo de Entrega',
                                 style: TextStyle(color: Colors.blue),

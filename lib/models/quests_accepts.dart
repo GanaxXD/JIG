@@ -1,19 +1,17 @@
 /*
-AULA 161: nessa aula ele explica que o ideal é armazenar o id
-dos produtos (quests) porque se elas forem alteradas, não
+o ideal é armazenar o id
+das quests porque se elas forem alteradas, não
 haverá problemas dos dados da quest estarem congeladas para o
 usuário que a aceitar quando modificadas remotamente no banco de
 dados.
 
-Na aula ele coloca vários outros itens que estou desprezando.
  */
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:job_is_a_game_app/models/quets.dart';
 import 'package:job_is_a_game_app/models/user.dart';
 
 /*
-AULA 161: essa classe irá armazenar os dados de uma quest aceita
-CARTPRODUCT
+essa classe irá armazenar os dados de uma quest aceita
  */
 class QuestsAccepts {
   //Id da dessa quest dentre as quests aceitas. É
@@ -66,7 +64,7 @@ class QuestsAccepts {
 
 
   /*
-  AULA 161: (5:47) Adicionando a quest aceita no banco de dados
+  Adicionando a quest aceita no banco de dados
    */
   Map<String, dynamic> toMap(String user) {
     return {

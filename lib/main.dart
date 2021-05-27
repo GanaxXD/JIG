@@ -21,12 +21,12 @@ class MyHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //AULA 154 - ScopedModel pegara o model usuário e todos os estados dele (está logado,
+    //ScopedModel pegara o model usuário e todos os estados dele (está logado,
     // dados das quests, etc), estarão disponíveis em todas as telas do app
     return ScopedModel<User>(
       //Defino o model: neste caso, o usuário
       model: User(),
-      //AULA 162 - 4:02: toda vez que eu mudar de user, as quests aceitas vão mudar
+      // toda vez que eu mudar de user, as quests aceitas vão mudar
       child: ScopedModelDescendant<User>(
           builder: (context, child, model){
             return ScopedModel<QuestAcceptModel>(

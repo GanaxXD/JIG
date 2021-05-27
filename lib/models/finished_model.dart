@@ -27,7 +27,6 @@ class FinishedModel extends Model{
       _loadMissions();
   }
 
-  //AULA 163
   static FinishedModel of(BuildContext context) =>
       ScopedModel.of<FinishedModel>(context);
 
@@ -55,8 +54,7 @@ class FinishedModel extends Model{
     notifyListeners();
   }
 
-  //AULA 168 - RECUPERANDO DADOS DO CARRINHO
-  //3:40
+  //RECUPERANDO DADOS Das missões
   void _loadMissions() async{
     QuerySnapshot query = await Firestore.instance.collection("usuarios").document(user.firebaseUser.uid)
         .collection("questsConcluidas").getDocuments();

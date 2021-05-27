@@ -15,29 +15,26 @@ class AceitasTile extends StatelessWidget {
   //CARTPRODUCT
   final QuestsAccepts questaceita;
   AceitasTile(this.questaceita, this.user);
-  //EU quem inseri isso, na aula 166 ele não faz,
+
   // Preciso disso pra acessa a colecao de quests aceitas
   // do usuário
   User user;
 
 
 /*
-AULA 166 - CRIANDO CARD DOS PRODUTOS PROGRAMATICAMENTE
+CRIANDO CARD DAS QUESTS PROGRAMATICAMENTE
  */
   @override
   Widget build(BuildContext context) {
     var inicio = questaceita.dataInicio.millisecondsSinceEpoch;
     var fim = questaceita.dataFim.millisecondsSinceEpoch;
-    /*
-    AULA 167
-     */
+
     Widget _buildContent(){
         return Column(
           children: <Widget>[
             Container(
-              //NA AULA ELE POE 120
               width: 90,
-              //NA imagem posso tentar por uma minhatra do workflow. Ele usa um NetworkImage (AULA 167 - 0:57)
+              //NA imagem posso tentar por uma minha do workflow.
               child: Image.asset('assets/img/aceita2.png', fit: BoxFit.cover,),
               padding: EdgeInsets.all(8.0),
             ),
@@ -221,12 +218,10 @@ AULA 166 - CRIANDO CARD DOS PRODUTOS PROGRAMATICAMENTE
           builder: (context, snapshot){
 
             /*
-            AULA 166 - 6:00 a 7:00 aproximadamente
             Se o snapshot tiver dados, eu acesso o método da classe Quests
             e passo ela para o atributo questData dentro de Quest_Accept_Model
              */
             if(snapshot.hasData){
-              print("==================: "+snapshot.data["titulo_quest"]);
               questaceita.questData = Quests.fromDocument(snapshot.data);
               questaceita.questData.titulo = snapshot.data["titulo_quest"];
               questaceita.questData.descricao = snapshot.data["descricao_quest"];

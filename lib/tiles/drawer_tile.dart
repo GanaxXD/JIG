@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-//AULA 139
 class DrawerTile extends StatelessWidget {
 
   final IconData icone;
   final String titulo;
-  //AULA 140 - TROCANDO PÁGINA PELO DRAWER
+  //ROCANDO PÁGINA PELO DRAWER
   final PageController pageControler;
   final int page;
 
@@ -18,7 +17,6 @@ class DrawerTile extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         //Navigator ficará aqui
-        //AULA 140
         onTap: (){
           Navigator.of(context).pop();
           pageControler.jumpToPage(page);

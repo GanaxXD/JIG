@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
@@ -407,7 +406,6 @@ class _CadastroState extends State<Cadastro> {
   }
 
   /*
-  AULA 157:
   Coloco um snackbar para mostrar uma mensagem
   para indicar que o usuário logou.
    */
@@ -426,7 +424,6 @@ class _CadastroState extends State<Cadastro> {
   }
 
   /*
-  AULA 157:
   Função para sair.
    */
   void _onFail(){

@@ -4,10 +4,6 @@ import 'package:job_is_a_game_app/models/user.dart';
 import 'package:job_is_a_game_app/tiles/aceitas_tile.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-/*
-AULA 164 - criando o carrinho
- */
-
 class QuestAcceptScreen extends StatelessWidget {
 
   User user;
@@ -34,7 +30,7 @@ class QuestAcceptScreen extends StatelessWidget {
                   );
                 } else {
                   /*
-              AULA 166 - inserindo as quests de forma programada, conforme
+              inserindo as quests de forma programada, conforme
               quests aceitas pelo usuário.
                */
                   return ListView(

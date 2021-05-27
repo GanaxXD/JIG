@@ -14,18 +14,16 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 class QuestScreen extends StatefulWidget {
 
-  //AULA 149 (5:40) e 150 :
   final Quests quest;
   User user;
   QuestScreen(this.quest, this.user);
 
-  //NA AULA 150 (TEMPO 0:54'') ELE TEM UM CONSTRUTOR QUE RECEBE O PRODUTO. VERIFICAR COMO ELE FEZ ISSO
   @override
   _QuestScreenState createState() => _QuestScreenState(quest, user);
 }
 
 class _QuestScreenState extends State<QuestScreen> {
-  //AULA 149 (6:00) e 150 :
+
   final Quests quest;
   List<QuestsAccepts> listaDeMissoesAceitas=[];
   String caminhoDaImagemWorkflow;
@@ -76,7 +74,7 @@ class _QuestScreenState extends State<QuestScreen> {
           ),
           body: ListView(
             children: <Widget>[
-              /* Ver na aula 150: Imagem em link
+              /* Imagem em link
               A imagem do Workflow irá ficar logo no topo, para servir de referência.
               Utilizarei um AsectRatio para que a imagem não varie de tamanho conforme
               o aparelho. Dessa forma, o Aspect ratio sempre trará uma imagem que
@@ -116,7 +114,6 @@ class _QuestScreenState extends State<QuestScreen> {
                     Text("Guerreiros Convocados para a missão:", style: TextStyle(fontFamily: 'Helvetica',
                       fontWeight: FontWeight.normal, color: Colors.indigoAccent, fontSize: 16,),
                       textAlign: TextAlign.justify,),*/
-                    //Circulos com as imagens dos guerreiros: Uma ideia de organização dos ícones está na aula 151, 2:30. Já dos círculos, ver a aula do chat.
 
                     Divider(height: 50,),
 
@@ -158,16 +155,12 @@ class _QuestScreenState extends State<QuestScreen> {
                               "aceita" : true,
                             });
 
-                            //AULA 163 () - adicionando a quest na lista de quests aceitas
+                            //adicionando a quest na lista de quests aceitas
                             QuestsAccepts aceita = QuestsAccepts();
                             aceita.idQuestCopia = quest.id;
-                            print("==============================: "+aceita.idQuestCopia);
                             aceita.titulo = quest.titulo;
-                            print("==============================: "+aceita.titulo);
                             aceita.descricao = quest.descricao;
-                            print("==============================: "+aceita.descricao);
                             aceita.aceita = true;
-                            print("==============================: "+aceita.aceita.toString());
                             aceita.questData = quest;
                             aceita.idworkflow = quest.idworkflow;
                             aceita.concluida = false;
@@ -177,7 +170,6 @@ class _QuestScreenState extends State<QuestScreen> {
                             aceita.dataInicio = quest.dataInicio;
                             aceita.dataFim = quest.dataFim;
                             aceita.quantidade_de_participantes = quest.quantidade_de_participantes;
-                            print("USUARIO QUEM ACEITOU: "+aceita.listaUsuariosAceitaram[0] + "TAMANHO DA LISTA: "+ aceita.listaUsuariosAceitaram.length.toString());
 
                             QuestAcceptModel.of(context).addQuest(aceita);
 

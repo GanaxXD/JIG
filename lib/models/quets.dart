@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 
 class Quests {
 
-  //AULA 116(gravar dados) e 117(ler dados):
   //NOTA: COLEÇÃO -> DOCUMENTO: PODE SER CRIADO EM VÁRIOS NÍVEIS NO FIREBASE: EX:
   //Firestore.instance.collection("nomedacolecao").document("nomedodocumento").collection("nomedacolecao").document("nomedodocumento").collection("nomedacolecao").document("nomedodocumento")...
 
@@ -43,7 +42,6 @@ class Quests {
 
   Quests();
 
-  //AULA 147 (8:27)
   Quests.fromDocument(DocumentSnapshot snapshot){
     id = snapshot.documentID;
     titulo = snapshot.data["titulo_quest"];
@@ -71,7 +69,6 @@ class Quests {
   }
 
   //Transformando dados do firebase na classe
-  //AULA 143
   Quests.fromFirebase(DocumentSnapshot snapshot){
     id = snapshot.documentID;
     titulo = snapshot.data["titulo_quest"];
@@ -90,7 +87,6 @@ class Quests {
 
   }
 
-//AULA 162:
   Map<String, dynamic> toMap(){
     return{
       "id": id,
@@ -112,7 +108,7 @@ class Quests {
   }
 
   /*
-  AULA 161 (6:54) Resumo da quest para ser usada na
+  Resumo da quest para ser usada na
   classe QuestsAccepts
    */
   Map<String, dynamic> toResumeMap(){

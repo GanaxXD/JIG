@@ -5,10 +5,6 @@ import 'package:job_is_a_game_app/models/quets.dart';
 import 'package:job_is_a_game_app/models/user.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-/*
-Aula 162 - 3:00
- */
-//É O CART MODEL
 class QuestAcceptModel extends Model{
 
   User user;
@@ -30,7 +26,6 @@ class QuestAcceptModel extends Model{
       _loadMissions();
   }
 
-  //AULA 163
   static QuestAcceptModel of(BuildContext context) =>
       ScopedModel.of<QuestAcceptModel>(context);
 
@@ -66,8 +61,6 @@ class QuestAcceptModel extends Model{
     notifyListeners();
   }
 
-  //AULA 168 - RECUPERANDO DADOS DO CARRINHO
-  //3:40
   void _loadMissions() async{
     QuerySnapshot query = await Firestore.instance.collection("usuarios").document(user.firebaseUser.uid)
         .collection("questsAceitas").getDocuments();
